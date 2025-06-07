@@ -5,16 +5,22 @@
   display: flex;
   align-items: center;
   padding: 0 20px;
-  color: white;
+  /* 黄色い文字 */
+  color: yellow;
+  /* 白い太い枠線 */
+  border: 4px solid white;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.8em;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
   user-select: none;
+  /* 文字の影もつけて見やすく */
+  text-shadow: 1px 1px 2px black;
 }
+
 
 /* コンテンツ領域（メニューバーの下に余白確保） */
 #content {
