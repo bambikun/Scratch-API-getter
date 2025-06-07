@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<title>ユーザー取得ツール</title>
+  <meta charset="UTF-8" />
+  <title>ユーザー取得ツール</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<h1>ユーザー取得</h1>
-<input id="username" type="text" placeholder="ユーザーネームを入力" />
-<button onclick="fetchUserActivity()">取得</button>
+  <div id="header">ユーザー取得ツール</div>
 
-<pre id="result">ここに取得結果が表示されます。</pre>
+  <div id="content">
+    <input id="username" type="text" placeholder="ユーザーネームを入力" />
+    <button onclick="fetchUserActivity()">取得</button>
 
-<script>
-  function fetchUserActivity() {
-    const username = document.getElementById('username').value.trim();
-    const resultDiv = document.getElementById('result');
-    if (!username) {
-      resultDiv.textContent = 'ユーザーネームを入力してください。';
-      return;
+    <pre id="result">ここに取得結果が表示されます。</pre>
+  </div>
+
+  <script>
+    function fetchUserActivity() {
+      const username = document.getElementById('username').value.trim();
+      const resultDiv = document.getElementById('result');
+      if (!username) {
+        resultDiv.textContent = 'ユーザーネームを入力してください。';
+        return;
+      }
+
+      const url = `https://scratch.mit.edu/messages/ajax/user-activity/?user=${encodeURIComponent(username)}`;
+
+      resultDiv.textContent = '取得中…';
+
+      fetch(url, {
+        headers: {
+          'Accept': 'application/json'
+        },
+        credentials: 'include'
+      })
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTPエラー: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        resultDiv.textContent = JSON.stringify(data, null, 2);
+      })
+      .catch(err => {
+        resultDiv.textContent = '取得エラー: ' + err.message;
+      });
     }
-
-    const url = `https://scratch.mit.edu/messages/ajax/user-activity/?user=${encodeURIComponent(username)}`;
-
-    resultDiv.textContent = '取得中…';
-
-    fetch(url, {
-      headers: {
-        'Accept': 'application/json'
-      },
-      credentials: 'include'
-    })
-    .then(response => {
-      if (!response.ok) throw new Error(`HTTPエラー: ${response.status}`);
-      return response.json();
-    })
-    .then(data => {
-      resultDiv.textContent = JSON.stringify(data, null, 2);
-    })
-    .catch(err => {
-      resultDiv.textContent = '取得エラー: ' + err.message;
-    });
-  }
-</script>
+  </script>
 
 </body>
 </html>
