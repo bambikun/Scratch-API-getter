@@ -7,25 +7,48 @@
     body { font-family: sans-serif; padding: 20px; }
     img { max-width: 200px; }
     .info { margin-top: 10px; }
+    input { width: 300px; padding: 5px; }
   </style>
 </head>
 <body>
 
 <h1>Scratchプロジェクト情報取得</h1>
-<input type="text" id="projectIdInput" placeholder="プロジェクトIDを入力">
+<p>プロジェクトのID または URL を入力してください:</p>
+<input type="text" id="projectIdInput" placeholder="例: 965887674 または https://scratch.mit.edu/projects/965887674">
 <button onclick="fetchProject()">取得</button>
 
 <div id="result" class="info"></div>
 
 <script>
+function extractProjectId(input) {
+  // 数字だけならそのまま返す
+  if (/^\d+$/.test(input)) return input;
+
+  // URL形式からIDを抽出
+  const match = input.match(/projects\/(\d+)/);
+  return match ? match[1] : null;
+}
+
 function fetchProject() {
-  const projectId = document.getElementById("projectIdInput").value;
+  const input = document.getElementById("projectIdInput").value.trim();
+  const projectId = extractProjectId(input);
+
+  const result = document.getElementById("result");
+  result.innerHTML = ""; // リセット
+
+  if (!projectId) {
+    result.innerHTML = "<p style='color:red;'>プロジェクトIDが無効です。</p>";
+    return;
+  }
+
   const url = `https://api.scratch.mit.edu/projects/${projectId}`;
 
   fetch(url)
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error("Not found");
+      return res.json();
+    })
     .then(data => {
-      const result = document.getElementById("result");
       const thumbnailUrl = `https://uploads.scratch.mit.edu/get_image/project/${projectId}_480x360.png`;
 
       result.innerHTML = `
@@ -33,11 +56,11 @@ function fetchProject() {
         <p>作者: ${data.author.username}</p>
         <img src="${thumbnailUrl}" alt="サムネイル"><br>
         <p>❤ ${data.stats.loves}　⭐ ${data.stats.favorites}　👁 ${data.stats.views}</p>
-        <a href="https://scratch.mit.edu/projects/${projectId}" target="_blank">プロジェクトを見る</a>
+        <a href="https://scratch.mit.edu/projects/${projectId}" target="_blank">▶ プロジェクトを見る</a>
       `;
     })
     .catch(err => {
-      document.getElementById("result").innerText = "情報の取得に失敗しました。";
+      result.innerHTML = "<p style='color:red;'>情報の取得に失敗しました。</p>";
       console.error(err);
     });
 }
