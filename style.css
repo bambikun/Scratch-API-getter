@@ -1,6 +1,6 @@
 /* メニューバー */
 #header {
-  background-color: transparent; /* 背景は透明または別で設定 */
+  background-color: #855CD6; 
   height: 60px;
   display: flex;
   align-items: center;
