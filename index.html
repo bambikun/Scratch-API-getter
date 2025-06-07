@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Scratchプロジェクト情報取得ツール</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    img { max-width: 200px; }
+    .info { margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>Scratchプロジェクト情報取得</h1>
+<input type="text" id="projectIdInput" placeholder="プロジェクトIDを入力">
+<button onclick="fetchProject()">取得</button>
+
+<div id="result" class="info"></div>
+
+<script>
+function fetchProject() {
+  const projectId = document.getElementById("projectIdInput").value;
+  const url = `https://api.scratch.mit.edu/projects/${projectId}`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      const result = document.getElementById("result");
+      const thumbnailUrl = `https://uploads.scratch.mit.edu/get_image/project/${projectId}_480x360.png`;
+
+      result.innerHTML = `
+        <h2>${data.title}</h2>
+        <p>作者: ${data.author.username}</p>
+        <img src="${thumbnailUrl}" alt="サムネイル"><br>
+        <p>❤ ${data.stats.loves}　⭐ ${data.stats.favorites}　👁 ${data.stats.views}</p>
+        <a href="https://scratch.mit.edu/projects/${projectId}" target="_blank">プロジェクトを見る</a>
+      `;
+    })
+    .catch(err => {
+      document.getElementById("result").innerText = "情報の取得に失敗しました。";
+      console.error(err);
+    });
+}
+</script>
+
+</body>
+</html>
