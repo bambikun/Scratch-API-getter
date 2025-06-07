@@ -1,0 +1,64 @@
+/* メニューバー */
+#header {
+  background-color: #855CD6;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5em;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  user-select: none;
+}
+
+/* コンテンツ領域（メニューバーの下に余白確保） */
+#content {
+  margin-top: 60px;
+  background-color: #121212;
+  color: #ddd;
+  min-height: 100vh;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 入力やボタンなどのスタイル例 */
+input, button {
+  background-color: #333;
+  border: 1px solid #555;
+  color: #ddd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+input::placeholder {
+  color: #888;
+}
+
+button {
+  cursor: pointer;
+  background-color: #6A4BC1;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #855CD6;
+}
+
+/* 結果表示用 */
+#result {
+  white-space: pre-wrap;
+  background-color: #222;
+  border: 1px solid #444;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
