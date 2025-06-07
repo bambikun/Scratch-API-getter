@@ -36,7 +36,7 @@
 
 ## 🌐 使用しているAPI
 
-- ScratchプロジェクトAPI（非公式ながら利用可能）  
+- ScratchプロジェクトAPI
   `https://api.scratch.mit.edu/projects/{プロジェクトID}`
 
 - サムネイル画像URL  
