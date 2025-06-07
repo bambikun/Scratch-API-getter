@@ -1,25 +1,29 @@
 /* メニューバー */
 #header {
-  background-color: #855CD6;
+  background-color: transparent; /* 背景は透明または別で設定 */
   height: 60px;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 20px;
-  /* 黄色い文字 */
   color: yellow;
-  /* 白い太い枠線 */
-  border: 4px solid white;
   font-weight: bold;
-  font-size: 1.8em;
+  font-size: 2em;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
   user-select: none;
-  /* 文字の影もつけて見やすく */
-  text-shadow: 1px 1px 2px black;
+
+  /* 白い縁取りを text-shadow で表現 */
+  text-shadow:
+    -1px -1px 0 white,
+     1px -1px 0 white,
+    -1px  1px 0 white,
+     1px  1px 0 white;
 }
+
 
 
 /* コンテンツ領域（メニューバーの下に余白確保） */
