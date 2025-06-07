@@ -1,28 +1,48 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>Scratch API ルート情報表示</title>
+<meta charset="UTF-8" />
+<title>ユーザー取得ツール</title>
 </head>
 <body>
-  <h1>Scratch API トップ情報</h1>
-  <div id="info">取得中…</div>
 
-  <script>
-    fetch("https://api.scratch.mit.edu")
-      .then(response => {
-        if (!response.ok) throw new Error("レスポンスエラー: " + response.status);
-        return response.json();
-      })
-      .then(data => {
-        // JSON例 { "website": "scratch.mit.edu", "api": "api.scratch.mit.edu", "help": "help@scratch.mit.edu" }
-        const website = data.website || "不明なサイト";
-        document.getElementById("info").textContent = 
-          `このサイトは ${website} でScratchが運営されています。`;
-      })
-      .catch(error => {
-        document.getElementById("info").textContent = "情報の取得に失敗しました: " + error.message;
-      });
-  </script>
+<h1>ユーザー取得</h1>
+<input id="username" type="text" placeholder="ユーザーネームを入力" />
+<button onclick="fetchUserActivity()">取得</button>
+
+<pre id="result">ここに取得結果が表示されます。</pre>
+
+<script>
+  function fetchUserActivity() {
+    const username = document.getElementById('username').value.trim();
+    const resultDiv = document.getElementById('result');
+    if (!username) {
+      resultDiv.textContent = 'ユーザーネームを入力してください。';
+      return;
+    }
+
+    const url = `https://scratch.mit.edu/messages/ajax/user-activity/?user=${encodeURIComponent(username)}`;
+
+    resultDiv.textContent = '取得中…';
+
+    fetch(url, {
+      headers: {
+        'Accept': 'application/json'
+      },
+      credentials: 'include'
+    })
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTPエラー: ${response.status}`);
+      return response.json();
+    })
+    .then(data => {
+      resultDiv.textContent = JSON.stringify(data, null, 2);
+    })
+    .catch(err => {
+      resultDiv.textContent = '取得エラー: ' + err.message;
+    });
+  }
+</script>
+
 </body>
 </html>
