@@ -18,10 +18,10 @@
 
   /* 白い縁取りを text-shadow で表現 */
   text-shadow:
-    -1px -1px 0 white,
-     1px -1px 0 white,
-    -1px  1px 0 white,
-     1px  1px 0 white;
+    -4px -4px 0 white,
+     4px -4px 0 white,
+    -4px  4px 0 white,
+     4px  4px 0 white;
 }
 
 
